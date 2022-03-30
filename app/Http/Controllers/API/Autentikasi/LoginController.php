@@ -5,12 +5,17 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Pengguna;
+use App\Models\PrajuruBanjarAdat;
+use App\Models\PrajuruDesaAdat;
+use Illuminate\Support\Facades\DB;
 
 class LoginController extends Controller
 {
 
     public function __construct() {
         $this->Pengguna = new Pengguna;
+        $this->PrajuruBanjarAdat = new PrajuruBanjarAdat();
+        $this->PrajuruDesaAdat = new PrajuruDesaAdat();
     }
 
     public function login(){
@@ -41,5 +46,16 @@ class LoginController extends Controller
                 'message' => 'Email salah'
             ], 500);
         }
+    }
+
+    public function cek_status_admin($id) {
+        $data = DB::table('tb_prajuru_desa_adat')
+                ->select('tb_prajuru_desa_adat.status_prajuru_desa_adat')
+                ->join('tb_krama_mipil', 'tb_prajuru_desa_adat.krama_mipil_id', '=', 'tb_krama_mipil.krama_mipil_id')
+                ->join('tb_cacah_krama_mipil', 'tb_krama_mipil.cacah_krama_mipil_id', '=', 'tb_cacah_krama_mipil.cacah_krama_mipil_id')
+                ->join('tb_penduduk', 'tb_cacah_krama_mipil.penduduk_id', '=', 'tb_penduduk.penduduk_id')
+                ->where('tb_penduduk.penduduk_id', $id)
+                ->first();
+        return response()->json($data, 200);            
     }
 }

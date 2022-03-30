@@ -22,7 +22,7 @@ class UserDataController extends Controller
     public function show_user_data($id) {
         $data = Penduduk::join('tb_sso', 'tb_sso.penduduk_id', '=', 'tb_penduduk.penduduk_id')
                         ->join('tb_m_desa_adat', 'tb_m_desa_adat.desa_adat_id', '=', 'tb_penduduk.desa_id')
-                        ->join('tb_m_profesi', 'tb_m_profesi.profesi_id', '=', 'tb_penduduk.profesi_id')
+                        ->join('tb_m_profesi', 'tb_m_profesi.id', '=', 'tb_penduduk.profesi_id')
                         ->where('tb_penduduk.penduduk_id', $id)
                         ->first();
         return response()->json($data, 200);
@@ -73,7 +73,9 @@ class UserDataController extends Controller
     }
 
     public function show_data_desa_by_id($id) {
-        $data = DesaAdat::join('tb_m_kecamatan', 'tb_m_kecamatan.kecamatan_id', '=', 'tb_m_desa_adat.kecamatan_id')->first();
+        $data = DesaAdat::join('tb_m_kecamatan', 'tb_m_kecamatan.kecamatan_id', '=', 'tb_m_desa_adat.kecamatan_id')
+                        ->where('tb_m_desa_adat.desa_adat_id', $id)
+                        ->first();
         return response()->json($data, 200);
     }
 }

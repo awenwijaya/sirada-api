@@ -27,13 +27,13 @@ class DataStaffController extends Controller
                                 ->join('tb_cacah_krama_mipil', 'tb_krama_mipil.cacah_krama_mipil_id', '=', 'tb_cacah_krama_mipil.cacah_krama_mipil_id')
                                 ->join('tb_penduduk', 'tb_cacah_krama_mipil.penduduk_id', '=', 'tb_penduduk.penduduk_id')
                                 ->where('tb_prajuru_desa_adat.desa_adat_id', $id)
-                                ->where('tb_prajuru_desa_adat.status_prajuru_desa_adat', '1')
+                                ->where('tb_prajuru_desa_adat.status_prajuru_desa_adat', 'aktif')
                                 ->get();
         $data_cek = PrajuruDesaAdat::join('tb_krama_mipil', 'tb_prajuru_desa_adat.krama_mipil_id', '=', 'tb_krama_mipil.krama_mipil_id')
                                 ->join('tb_cacah_krama_mipil', 'tb_krama_mipil.cacah_krama_mipil_id', '=', 'tb_cacah_krama_mipil.cacah_krama_mipil_id')
                                 ->join('tb_penduduk', 'tb_cacah_krama_mipil.penduduk_id', '=', 'tb_penduduk.penduduk_id')
                                 ->where('tb_prajuru_desa_adat.desa_adat_id', $id)
-                                ->where('tb_prajuru_desa_adat.status_prajuru_desa_adat', '1')
+                                ->where('tb_prajuru_desa_adat.status_prajuru_desa_adat', 'aktif')
                                 ->first();
         if($data_cek == null) {
             return response()->json([
@@ -49,13 +49,13 @@ class DataStaffController extends Controller
                                 ->join('tb_cacah_krama_mipil', 'tb_krama_mipil.cacah_krama_mipil_id', '=', 'tb_cacah_krama_mipil.cacah_krama_mipil_id')
                                 ->join('tb_penduduk', 'tb_cacah_krama_mipil.penduduk_id', '=', 'tb_penduduk.penduduk_id')
                                 ->where('tb_prajuru_desa_adat.desa_adat_id', $id)
-                                ->where('tb_prajuru_desa_adat.status_prajuru_desa_adat', '0')
+                                ->where('tb_prajuru_desa_adat.status_prajuru_desa_adat', 'tidak aktif')
                                 ->get();
         $data_cek = PrajuruDesaAdat::join('tb_krama_mipil', 'tb_prajuru_desa_adat.krama_mipil_id', '=', 'tb_krama_mipil.krama_mipil_id')
                                 ->join('tb_cacah_krama_mipil', 'tb_krama_mipil.cacah_krama_mipil_id', '=', 'tb_cacah_krama_mipil.cacah_krama_mipil_id')
                                 ->join('tb_penduduk', 'tb_cacah_krama_mipil.penduduk_id', '=', 'tb_penduduk.penduduk_id')
                                 ->where('tb_prajuru_desa_adat.desa_adat_id', $id)
-                                ->where('tb_prajuru_desa_adat.status_prajuru_desa_adat', '0')
+                                ->where('tb_prajuru_desa_adat.status_prajuru_desa_adat', 'tidak aktif')
                                 ->first();
         if($data_cek == null) {
             return response()->json([
@@ -71,7 +71,7 @@ class DataStaffController extends Controller
         $data = PrajuruDesaAdat::join('tb_krama_mipil', 'tb_prajuru_desa_adat.krama_mipil_id', '=', 'tb_krama_mipil.krama_mipil_id')
                                 ->join('tb_cacah_krama_mipil', 'tb_krama_mipil.cacah_krama_mipil_id', '=', 'tb_cacah_krama_mipil.cacah_krama_mipil_id')
                                 ->join('tb_penduduk', 'tb_cacah_krama_mipil.penduduk_id', '=', 'tb_penduduk.penduduk_id')
-                                ->join('tb_m_profesi', 'tb_penduduk.profesi_id', '=', 'tb_m_profesi.profesi_id')
+                                ->join('tb_m_profesi', 'tb_penduduk.profesi_id', '=', 'tb_m_profesi.id')
                                 ->where('tb_prajuru_desa_adat.prajuru_desa_adat_id', $id)
                                 ->first();
         return response()->json($data, 200);
@@ -84,7 +84,7 @@ class DataStaffController extends Controller
         ]);
         $data = [
             'prajuru_desa_adat_id' => Request()->prajuru_desa_adat_id,
-            'status_prajuru_desa_adat' => '0'
+            'status_prajuru_desa_adat' => 'tidak aktif'
         ];
         $this->PrajuruDesaAdat->EditPrajuruDesaAdat(Request()->prajuru_desa_adat_id, $data);
         return response()->json([
@@ -98,7 +98,7 @@ class DataStaffController extends Controller
                                 ->join('tb_krama_mipil', 'tb_prajuru_desa_adat.krama_mipil_id', '=', 'tb_krama_mipil.krama_mipil_id')
                                 ->join('tb_cacah_krama_mipil', 'tb_krama_mipil.cacah_krama_mipil_id', '=', 'tb_cacah_krama_mipil.cacah_krama_mipil_id')
                                 ->join('tb_penduduk', 'tb_cacah_krama_mipil.penduduk_id', '=', 'tb_penduduk.penduduk_id')
-                                ->join('tb_m_profesi', 'tb_penduduk.profesi_id', '=', 'tb_m_profesi.profesi_id')
+                                ->join('tb_m_profesi', 'tb_penduduk.profesi_id', '=', 'tb_m_profesi.id')
                                 ->join('tb_sso', 'tb_sso.penduduk_id', '=', 'tb_cacah_krama_mipil.penduduk_id')
                                 ->where('tb_prajuru_desa_adat.prajuru_desa_adat_id', $id)
                                 ->first();
@@ -111,14 +111,14 @@ class DataStaffController extends Controller
                                 ->join('tb_cacah_krama_mipil', 'tb_krama_mipil.cacah_krama_mipil_id', '=', 'tb_cacah_krama_mipil.cacah_krama_mipil_id')
                                 ->join('tb_penduduk', 'tb_cacah_krama_mipil.penduduk_id', '=', 'tb_penduduk.penduduk_id')
                                 ->where('tb_m_banjar_adat.desa_adat_id', $id)
-                                ->where('tb_prajuru_banjar_adat.status_prajuru_banjar_adat', '1')
+                                ->where('tb_prajuru_banjar_adat.status_prajuru_banjar_adat', 'aktif')
                                 ->get();
         $data_cek = PrajuruBanjarAdat::join('tb_m_banjar_adat', 'tb_prajuru_banjar_adat.banjar_adat_id', '=', 'tb_m_banjar_adat.banjar_adat_id')
                                 ->join('tb_krama_mipil', 'tb_prajuru_banjar_adat.krama_mipil_id', '=', 'tb_krama_mipil.krama_mipil_id')
                                 ->join('tb_cacah_krama_mipil', 'tb_krama_mipil.cacah_krama_mipil_id', '=', 'tb_cacah_krama_mipil.cacah_krama_mipil_id')
                                 ->join('tb_penduduk', 'tb_cacah_krama_mipil.penduduk_id', '=', 'tb_penduduk.penduduk_id')
                                 ->where('tb_m_banjar_adat.desa_adat_id', $id)
-                                ->where('tb_prajuru_banjar_adat.status_prajuru_banjar_adat', '1')
+                                ->where('tb_prajuru_banjar_adat.status_prajuru_banjar_adat', 'aktif')
                                 ->first();
         if($data_cek == null) {
             return response()->json([
@@ -136,14 +136,14 @@ class DataStaffController extends Controller
                                 ->join('tb_cacah_krama_mipil', 'tb_krama_mipil.cacah_krama_mipil_id', '=', 'tb_cacah_krama_mipil.cacah_krama_mipil_id')
                                 ->join('tb_penduduk', 'tb_cacah_krama_mipil.penduduk_id', '=', 'tb_penduduk.penduduk_id')
                                 ->where('tb_m_banjar_adat.desa_adat_id', $id)
-                                ->where('tb_prajuru_banjar_adat.status_prajuru_banjar_adat', '0')
+                                ->where('tb_prajuru_banjar_adat.status_prajuru_banjar_adat', 'tidak aktif')
                                 ->get();
         $data_cek = PrajuruBanjarAdat::join('tb_m_banjar_adat', 'tb_prajuru_banjar_adat.banjar_adat_id', '=', 'tb_m_banjar_adat.banjar_adat_id')
                                 ->join('tb_krama_mipil', 'tb_prajuru_banjar_adat.krama_mipil_id', '=', 'tb_krama_mipil.krama_mipil_id')
                                 ->join('tb_cacah_krama_mipil', 'tb_krama_mipil.cacah_krama_mipil_id', '=', 'tb_cacah_krama_mipil.cacah_krama_mipil_id')
                                 ->join('tb_penduduk', 'tb_cacah_krama_mipil.penduduk_id', '=', 'tb_penduduk.penduduk_id')
                                 ->where('tb_m_banjar_adat.desa_adat_id', $id)
-                                ->where('tb_prajuru_banjar_adat.status_prajuru_banjar_adat', '0')
+                                ->where('tb_prajuru_banjar_adat.status_prajuru_banjar_adat', 'tidak aktif')
                                 ->first();
         if($data_cek == null) {
             return response()->json([
@@ -160,7 +160,7 @@ class DataStaffController extends Controller
                                 ->join('tb_krama_mipil', 'tb_prajuru_banjar_adat.krama_mipil_id', '=', 'tb_krama_mipil.krama_mipil_id')
                                 ->join('tb_cacah_krama_mipil', 'tb_krama_mipil.cacah_krama_mipil_id', '=', 'tb_cacah_krama_mipil.cacah_krama_mipil_id')
                                 ->join('tb_penduduk', 'tb_cacah_krama_mipil.penduduk_id', '=', 'tb_penduduk.penduduk_id')
-                                ->join('tb_m_profesi', 'tb_penduduk.profesi_id', '=', 'tb_m_profesi.profesi_id')
+                                ->join('tb_m_profesi', 'tb_penduduk.profesi_id', '=', 'tb_m_profesi.id')
                                 ->where('tb_prajuru_banjar_adat.prajuru_banjar_adat_id', $id)
                                 ->first();
         return response()->json($data, 200);    
@@ -172,7 +172,7 @@ class DataStaffController extends Controller
                                 ->join('tb_krama_mipil', 'tb_prajuru_banjar_adat.krama_mipil_id', '=', 'tb_krama_mipil.krama_mipil_id')
                                 ->join('tb_cacah_krama_mipil', 'tb_krama_mipil.cacah_krama_mipil_id', '=', 'tb_cacah_krama_mipil.cacah_krama_mipil_id')
                                 ->join('tb_penduduk', 'tb_cacah_krama_mipil.penduduk_id', '=', 'tb_penduduk.penduduk_id')
-                                ->join('tb_m_profesi', 'tb_penduduk.profesi_id', '=', 'tb_m_profesi.profesi_id')
+                                ->join('tb_m_profesi', 'tb_penduduk.profesi_id', '=', 'tb_m_profesi.id')
                                 ->join('tb_sso', 'tb_sso.penduduk_id', '=', 'tb_cacah_krama_mipil.penduduk_id')
                                 ->where('tb_prajuru_banjar_adat.prajuru_banjar_adat_id', $id)
                                 ->first();
@@ -189,7 +189,8 @@ class DataStaffController extends Controller
             'email' => 'required',
             'password' => 'required',
             'desa_adat_id' => 'required',
-            'penduduk_id' => 'required'
+            'penduduk_id' => 'required',
+            'role' => 'required'
         ]);
         $cek_data = PrajuruDesaAdat::where("krama_mipil_id", Request()->krama_mipil_id)->first();
         $cek_email = Pengguna::select('email')->where('email', Request()->email)->first();
@@ -206,7 +207,7 @@ class DataStaffController extends Controller
             'username' => Str::random(8),
             'email' => Request()->email,
             'password' => Hash::make(Request()->password),
-            'role' => 'Admin',
+            'role' => Request()->role,
             'penduduk_id' => Request()->penduduk_id,
             'desa_adat_id' => Request()->desa_adat_id,
             'is_verified' => 'Verified',
@@ -247,7 +248,8 @@ class DataStaffController extends Controller
             'masa_mulai_menjabat' => 'required',
             'masa_akhir_menjabat' => 'required',
             'email' => 'required',
-            'penduduk_id' => 'required'
+            'penduduk_id' => 'required',
+            'role' => 'required'
         ]);
         $data = [
             "jabatan" => Request()->jabatan,
@@ -255,7 +257,8 @@ class DataStaffController extends Controller
             "tanggal_akhir_menjabat" => Request()->masa_akhir_menjabat
         ];
         $data_penduduk = [
-            'email' => Request()->email
+            'email' => Request()->email,
+            'role' => Request()->role
         ];
         $this->PrajuruDesaAdat->EditPrajuruDesaAdat(Request()->prajuru_desa_adat_id, $data);
         $this->Pengguna->EditData($data_penduduk, Request()->penduduk_id);
@@ -290,7 +293,8 @@ class DataStaffController extends Controller
             'email' => 'required',
             'password' => 'required',
             'desa_adat_id' => 'required',
-            'penduduk_id' => 'required'
+            'penduduk_id' => 'required',
+            'role' => 'required'
         ]);
         $cek_data = PrajuruBanjarAdat::where("krama_mipil_id", Request()->krama_mipil_id)->first();
         $cek_email = Pengguna::select('email')->where('email', Request()->email)->first();
@@ -307,7 +311,7 @@ class DataStaffController extends Controller
             'username' => Str::random(8),
             'email' => Request()->email,
             'password' => Hash::make(Request()->password),
-            'role' => 'Admin',
+            'role' => Request()->role,
             'penduduk_id' => Request()->penduduk_id,
             'desa_adat_id' => Request()->desa_adat_id,
             'is_verified' => 'Verified',
@@ -373,7 +377,7 @@ class DataStaffController extends Controller
         ]);
         $data = [
             'prajuru_banjar_adat_id' => Request()->prajuru_banjar_adat_id,
-            'status_prajuru_banjar_adat' => '0'
+            'status_prajuru_banjar_adat' => 'tidak aktif'
         ];
         $this->PrajuruBanjarAdat->EditPrajuruBanjarAdat(Request()->prajuru_banjar_adat_id, $data);
         return response()->json([
@@ -393,5 +397,16 @@ class DataStaffController extends Controller
             'status' => 'OK',
             'message' => 'Data Prajuru Berhasil Dihapus!'
         ], 200);
+    }
+
+    public function show_list_bendesa_adat_by_desa_id($id) {
+        $data = PrajuruDesaAdat::join('tb_krama_mipil', 'tb_prajuru_desa_adat.krama_mipil_id', '=', 'tb_krama_mipil.krama_mipil_id')
+        ->join('tb_cacah_krama_mipil', 'tb_krama_mipil.cacah_krama_mipil_id', '=', 'tb_cacah_krama_mipil.cacah_krama_mipil_id')
+        ->join('tb_penduduk', 'tb_cacah_krama_mipil.penduduk_id', '=', 'tb_penduduk.penduduk_id')
+        ->where('tb_prajuru_desa_adat.desa_adat_id', $id)
+        ->where('tb_prajuru_desa_adat.status_prajuru_desa_adat', 'aktif')
+        ->where('tb_prajuru_desa_adat.jabatan', 'bendesa')
+        ->get();
+        return response()->json($data, 200);
     }
 }

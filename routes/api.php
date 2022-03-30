@@ -37,6 +37,7 @@ Route::get('verifyemail/{email}', [EmailController::class, 'konfirmasiemail']);
 Route::post('autentikasi/lupapassword/cek_email', [LupaPasswordController::class, 'cek_email']);
 Route::post('autentikasi/lupapassword/send_email', [EmailController::class, 'kirimEmailLupaPassword']);
 Route::post('autentikasi/login', [LoginController::class, 'login']);
+Route::get('autentikasi/login/status/prajuru_desa_adat/{id}', [LoginController::class, 'cek_status_admin']);
 
 //data
 Route::get('data/userdata/{id}', [UserDataController::class, 'show_user_data']);
@@ -55,10 +56,7 @@ Route::get('data/penduduk/banjar_adat/{id}', [PendudukDataController::class, 'sh
 Route::get('data/staff/prajuru_desa_adat/edit/{id}', [DataStaffController::class, 'show_detail_prajuru_desa_adat_edit']);
 Route::get('data/banjar/{id}', [BanjarAdatDataController::class, 'show_list_banjar_adat_by_desa_id']);
 Route::get('data/staff/prajuru_banjar_adat/edit/{id}', [DataStaffController::class, 'show_detail_prajuru_banjar_adat_edit']);
-Route::get('data/surat/keluar/sedang_diproses/{id}', [DataSuratController::class, 'show_list_surat_keluar_sedang_proses']);
-Route::get('data/surat/keluar/dikonfirmasi/{id}', [DataSuratController::class, 'show_list_surat_keluar_dikonfirmasi']);
-Route::get('data/surat/keluar/dibatalkan/{id}', [DataSuratController::class, 'show_list_surat_dibatalkan']);
-Route::get('data/surat/masuk/{id}', [DataSuratController::class, 'show_list_surat_masuk_sedang_proses']);
+Route::get('data/staff/prajuru/desa_adat/bendesa/{id}', [DataStaffController::class, 'show_list_bendesa_adat_by_desa_id']);
 
 //admin
 Route::post('admin/desa/up_sejarah_desa', [DataDesaController::class, 'up_sejarah_desa']);
@@ -73,3 +71,4 @@ Route::post('admin/prajuru/banjar_adat/up', [DataStaffController::class, 'add_pr
 Route::post('admin/prajuru/banjar_adat/edit/up', [DataStaffController::class, 'edit_prajuru_banjar_adat']);
 Route::post('admin/prajuru/banjar_adat/set_tidak_aktif', [DataStaffController::class, 'set_prajuru_banjar_adat_tidak_aktif']);
 Route::post('admin/prajuru/banjar_adat/delete', [DataStaffController::class, 'delete_prajuru_banjar_adat']);
+Route::post('admin/surat/keluar/up', [DataSuratController::class, 'up_surat_keluar']);
