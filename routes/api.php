@@ -57,6 +57,10 @@ Route::get('data/staff/prajuru_desa_adat/edit/{id}', [DataStaffController::class
 Route::get('data/banjar/{id}', [BanjarAdatDataController::class, 'show_list_banjar_adat_by_desa_id']);
 Route::get('data/staff/prajuru_banjar_adat/edit/{id}', [DataStaffController::class, 'show_detail_prajuru_banjar_adat_edit']);
 Route::get('data/staff/prajuru/desa_adat/bendesa/{id}', [DataStaffController::class, 'show_list_bendesa_adat_by_desa_id']);
+Route::post('data/surat/keluar/menunggu_respons/{id}', [DataSuratController::class, 'show_list_surat_keluar_menunggu']);
+Route::post('data/surat/keluar/sedang_direspons/{id}', [DataSuratController::class, 'show_list_surat_keluar_sedang_direspons']);
+Route::post('data/surat/keluar/telah_dikonfirmasi/{id}', [DataSuratController::class, 'show_list_surat_keluar_telah_dikonfirmasi']);
+Route::post('data/surat/keluar/dibatalkan/{id}', [DataSuratController::class, 'show_list_surat_keluar_dibatalkan']);
 
 //admin
 Route::post('admin/desa/up_sejarah_desa', [DataDesaController::class, 'up_sejarah_desa']);
