@@ -145,10 +145,12 @@ class DataSuratController extends Controller
             $surat_keluar->pemahbah_surat = $request->pemahbah_surat;
             $surat_keluar->daging_surat = $request->daging_surat ? : NULL;
             $surat_keluar->pamuput_surat = $request->pamuput_surat ? : NULL;
-            $surat_keluar->tanggal_kegiatan = $request->tanggal_kegiatan ? : NULL;
+            $surat_keluar->tanggal_mulai = $request->tanggal_mulai ? : NULL;
+            $surat_keluar->tanggal_selesai = $request->tanggal_selesai ? : NULL;
             $surat_keluar->busana = $request->busana ? : NULL;
             $surat_keluar->tempat_kegiatan = $request->tempat_kegiatan ? : NULL;
-            $surat_keluar->waktu_kegiatan = $request->waktu_kegiatan ? : NULL;
+            $surat_keluar->waktu_mulai = $request->waktu_mulai ? : NULL;
+            $surat_keluar->waktu_selesai = $request->waktu_selesai ? : NULL;
             $surat_keluar->tim_kegiatan = $request->tim_kegiatan ? : NULL;
             $surat_keluar->pihak_penerima = $request->pihak_penerima;
             $surat_keluar->lampiran = $request->lampiran ? : NULL;  

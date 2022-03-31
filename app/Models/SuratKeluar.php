@@ -20,10 +20,12 @@ class SuratKeluar extends Model
         'tanggal_keluar',
         'prajuru_banjar_id',
         'parindikan',
-        'tanggal_kegiatan',
+        'tanggal_mulai',
+        'tanggal_selesai',
         'busana',
         'tempat_kegiatan',
-        'waktu_kegiatan',
+        'waktu_mulai',
+        'waktu_selesai',
         'file',
         'tanggal_surat',
         'status',
@@ -32,7 +34,8 @@ class SuratKeluar extends Model
 
     protected $dates = [
         'tanggal_keluar',
-        'tanggal_kegiatan',
+        'tanggal_mulai',
+        'tanggal_selesai',
         'tanggal_surat',
         'created_at',
         'updated_at'
