@@ -61,6 +61,8 @@ Route::post('data/surat/keluar/menunggu_respons/{id}', [DataSuratController::cla
 Route::post('data/surat/keluar/sedang_direspons/{id}', [DataSuratController::class, 'show_list_surat_keluar_sedang_direspons']);
 Route::post('data/surat/keluar/telah_dikonfirmasi/{id}', [DataSuratController::class, 'show_list_surat_keluar_telah_dikonfirmasi']);
 Route::post('data/surat/keluar/dibatalkan/{id}', [DataSuratController::class, 'show_list_surat_keluar_dibatalkan']);
+Route::get('data/surat/detail/{id}', [DataSuratController::class, 'show_detail_surat_keluar']);
+Route::get('data/surat/keluar/view/{id}', [DataSuratController::class, 'show_surat_keluar']);
 
 //admin
 Route::post('admin/desa/up_sejarah_desa', [DataDesaController::class, 'up_sejarah_desa']);

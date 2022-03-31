@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use DateTimeInterface;
 
 class SuratKeluar extends Model
 {
@@ -28,4 +29,16 @@ class SuratKeluar extends Model
         'status',
         'pihak_penerima'
     ];
+
+    protected $dates = [
+        'tanggal_keluar',
+        'tanggal_kegiatan',
+        'tanggal_surat',
+        'created_at',
+        'updated_at'
+    ];
+
+    protected function serializeDate(DateTimeInterface $date){
+        return $date->format('d-M-Y');
+    }
 }

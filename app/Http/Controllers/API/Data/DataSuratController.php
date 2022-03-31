@@ -99,11 +99,11 @@ class DataSuratController extends Controller
         ]);
         $data = SuratKeluar::where('master_surat_id', $id)
                             ->where('desa_adat_id', Request()->desa_adat_id)
-                            ->where('status', 'Telah Dikonfirmasi')
+                            ->where('status', 'Dibatalkan')
                             ->get();
         $data_cek = SuratKeluar::where('master_surat_id', $id)
                             ->where('desa_adat_id', Request()->desa_adat_id)
-                            ->where('status', 'Telah Dikonfirmasi')
+                            ->where('status', 'Dibatalkan')
                             ->first();
         if($data_cek == null) {
             return response()->json([
@@ -163,15 +163,19 @@ class DataSuratController extends Controller
                                                     ->join('tb_krama_mipil', 'tb_cacah_krama_mipil.cacah_krama_mipil_id', '=', 'tb_krama_mipil.cacah_krama_mipil_id')
                                                     ->where('tb_penduduk.nama', $request->nama_bendesa)
                                                     ->first();
+                $data_ketua_panitia = [
+                    'krama_mipil_id' => $request->krama_mipil_ketua_id,
+                    'surat_keluar_id' => $last_surat_keluar_id,
+                    'jabatan' => 'Ketua Panitia'
+                ];
+                $validasi_panitia->TambahDataValidasiPanitia($data_ketua_panitia);
+                $data_sekretaris_panitia = [
+                    'krama_mipil_id' => $request->krama_mipil_sekretaris_id,
+                    'surat_keluar_id' => $last_surat_keluar_id,
+                    'jabatan' => 'Sekretaris Panitia'
+                ];
+                $validasi_panitia->TambahDataValidasiPanitia($data_sekretaris_panitia);
                 $bendesa_decode = json_decode($bendesa_krama_mipil_id);
-                $validasi_array = array($request->krama_mipil_ketua_id, $request->krama_mipil_sekretaris_id);
-                for($i = 0;$i < 2; $i++) {
-                    $data = [
-                        'krama_mipil_id' => $validasi_array[$i],
-                        'surat_keluar_id' => $last_surat_keluar_id
-                    ];
-                    $validasi_panitia->TambahDataValidasiPanitia($data);
-                }
                 $data_krama_mipil_bendesa = PrajuruDesaAdat::select('prajuru_desa_adat_id')->where('krama_mipil_id', $bendesa_decode->krama_mipil_id)->first();
                 $bendesa_krama_decode = json_decode($data_krama_mipil_bendesa);
                 $validasi_prajuru->prajuru_desa_adat_id = $bendesa_krama_decode->prajuru_desa_adat_id;
@@ -189,5 +193,19 @@ class DataSuratController extends Controller
                 $validasi_prajuru->save();
             }
         }
+    }
+
+    public function show_detail_surat_keluar($id) {
+        $data = SuratKeluar::where('surat_keluar_id', $id)->first();
+        return response()->json($data, 200);
+    }
+
+    public function show_surat_keluar($id) {
+        $data = SuratKeluar::join('tb_m_desa_adat', 'tb_surat_keluar.desa_adat_id', '=', 'tb_m_desa_adat.desa_adat_id')
+                            ->join('tb_m_kecamatan', 'tb_m_desa_adat.kecamatan_id', '=', 'tb_m_kecamatan.kecamatan_id')
+                            ->join('tb_m_kabupaten', 'tb_m_kecamatan.kabupaten_id', '=', 'tb_m_kabupaten.kabupaten_id')
+                            ->where('tb_surat_keluar.surat_keluar_id', $id)
+                            ->first();
+        return response()->json($data, 200);
     }
 }
