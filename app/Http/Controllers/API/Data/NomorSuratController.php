@@ -14,9 +14,13 @@ class NomorSuratController extends Controller
         $this->DetailMasterSurat = new DetailMasterSurat();
     }
 
-    public function show_list_master_surat() {
-        $data = MasterSurat::select()->get();
-        $data_cek = MasterSurat::select()->first();
+    public function show_list_master_surat($id) {
+        $data = MasterSurat::select()
+                ->where('desa_adat_id', $id)
+                ->get();
+        $data_cek = MasterSurat::select()
+                    ->where('desa_adat_id', $id)
+                    ->first();
         if($data_cek == null) {
             return response()->json([
                 'status' => 'Failed',

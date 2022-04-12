@@ -18,4 +18,9 @@ class ValidasiPrajuruDesa extends Model
         'prajuru_desa_adat_id',
         'validasi'
     ];
+
+    public function TambahDataValidasiPrajuru($data) {
+        DB::table('tb_validasi_prajuru_desa')
+        ->insert($data);
+    }
 }

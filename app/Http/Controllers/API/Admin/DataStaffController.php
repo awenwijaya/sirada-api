@@ -407,6 +407,49 @@ class DataStaffController extends Controller
         ->where('tb_prajuru_desa_adat.status_prajuru_desa_adat', 'aktif')
         ->where('tb_prajuru_desa_adat.jabatan', 'bendesa')
         ->get();
-        return response()->json($data, 200);
+
+        $data_cek = PrajuruDesaAdat::join('tb_krama_mipil', 'tb_prajuru_desa_adat.krama_mipil_id', '=', 'tb_krama_mipil.krama_mipil_id')
+        ->join('tb_cacah_krama_mipil', 'tb_krama_mipil.cacah_krama_mipil_id', '=', 'tb_cacah_krama_mipil.cacah_krama_mipil_id')
+        ->join('tb_penduduk', 'tb_cacah_krama_mipil.penduduk_id', '=', 'tb_penduduk.penduduk_id')
+        ->where('tb_prajuru_desa_adat.desa_adat_id', $id)
+        ->where('tb_prajuru_desa_adat.status_prajuru_desa_adat', 'aktif')
+        ->where('tb_prajuru_desa_adat.jabatan', 'bendesa')
+        ->first();
+
+        if($data_cek == null) {
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Data Bendesa Adat Tidak Ditemukan'
+            ], 500);
+        }else{
+            return response()->json($data, 200);
+        }
+    }
+
+    public function show_list_penyarikan_by_desa_id($id) {
+        $data = PrajuruDesaAdat::join('tb_krama_mipil', 'tb_prajuru_desa_adat.krama_mipil_id', '=', 'tb_krama_mipil.krama_mipil_id')
+        ->join('tb_cacah_krama_mipil', 'tb_krama_mipil.cacah_krama_mipil_id', '=', 'tb_cacah_krama_mipil.cacah_krama_mipil_id')
+        ->join('tb_penduduk', 'tb_cacah_krama_mipil.penduduk_id', '=', 'tb_penduduk.penduduk_id')
+        ->where('tb_prajuru_desa_adat.desa_adat_id', $id)
+        ->where('tb_prajuru_desa_adat.status_prajuru_desa_adat', 'aktif')
+        ->where('tb_prajuru_desa_adat.jabatan', 'penyarikan')
+        ->get();
+
+        $data_cek = PrajuruDesaAdat::join('tb_krama_mipil', 'tb_prajuru_desa_adat.krama_mipil_id', '=', 'tb_krama_mipil.krama_mipil_id')
+        ->join('tb_cacah_krama_mipil', 'tb_krama_mipil.cacah_krama_mipil_id', '=', 'tb_cacah_krama_mipil.cacah_krama_mipil_id')
+        ->join('tb_penduduk', 'tb_cacah_krama_mipil.penduduk_id', '=', 'tb_penduduk.penduduk_id')
+        ->where('tb_prajuru_desa_adat.desa_adat_id', $id)
+        ->where('tb_prajuru_desa_adat.status_prajuru_desa_adat', 'aktif')
+        ->where('tb_prajuru_desa_adat.jabatan', 'penyarikan')
+        ->first();
+
+        if($data_cek == null) {
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Data Penyarikan Tidak Ditemukan!'
+            ], 500);
+        }else{
+            return response()->json($data, 200);
+        }
     }
 }
