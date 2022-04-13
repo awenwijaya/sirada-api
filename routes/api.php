@@ -62,10 +62,7 @@ Route::get('data/staff/prajuru/desa_adat/bendesa/{id}', [DataStaffController::cl
 Route::get('data/staff/prajuru/desa_adat/penyarikan/{id}', [DataStaffController::class, 'show_list_penyarikan_by_desa_id']);
 
 //manajemen surat
-Route::post('data/surat/keluar/menunggu_respons/{id}', [DataSuratController::class, 'show_list_surat_keluar_menunggu']);
-Route::post('data/surat/keluar/sedang_direspons/{id}', [DataSuratController::class, 'show_list_surat_keluar_sedang_direspons']);
-Route::post('data/surat/keluar/telah_dikonfirmasi/{id}', [DataSuratController::class, 'show_list_surat_keluar_telah_dikonfirmasi']);
-Route::post('data/surat/keluar/dibatalkan/{id}', [DataSuratController::class, 'show_list_surat_keluar_dibatalkan']);
+Route::post('data/admin/surat/panitia/{id}', [DataSuratController::class, 'show_surat_keluar_panitia']);
 Route::get('data/surat/detail/{id}', [DataSuratController::class, 'show_detail_surat_keluar']);
 Route::get('data/surat/keluar/view/{id}', [DataSuratController::class, 'show_surat_keluar']);
 Route::get('data/krama_mipil/{id}', [PendudukDataController::class, 'show_detail_krama_mipil']);
@@ -73,6 +70,7 @@ Route::post('data/admin/surat/keluar/panitia/{id}', [DataSuratController::class,
 Route::post('data/admin/surat/keluar/prajuru/{id}', [DataSuratController::class, 'show_detail_prajuru_surat_keluar']);
 Route::get('data/admin/surat/nomor_surat/{id}', [DataSuratController::class, 'show_nomor_surat_data']);
 Route::get('data/admin/surat/non-panitia/kode/{id}', [DataSuratController::class, 'show_kode_surat_non_panitia']);
+Route::get('data/admin/surat/panitia/kode/{id}', [DataSuratController::class, 'show_kode_surat_panitia']);
 Route::post('data/admin/surat/non-panitia/{id}', [DataSuratController::class, 'show_surat_keluar_non_panitia']);
 
 //admin
@@ -90,8 +88,11 @@ Route::post('admin/prajuru/banjar_adat/set_tidak_aktif', [DataStaffController::c
 Route::post('admin/prajuru/banjar_adat/delete', [DataStaffController::class, 'delete_prajuru_banjar_adat']);
 
 //manajemen surat keluar admin
-Route::post('admin/surat/keluar/up', [DataSuratController::class, 'up_surat_keluar']);
 Route::post('admin/surat/keluar/non-panitia/up', [DataSuratController::class, 'up_surat_keluar_non_panitia']);
+Route::post('admin/surat/keluar/panitia/up', [DataSuratController::class, 'up_surat_keluar_panitia']);
+Route::get('admin/surat/keluar/panitia/edit/{id}', [DataSuratController::class, 'show_surat_keluar_edit']);
+Route::post('admin/surat/keluar/panitia/edit/nomor_surat/{id}', [DataSuratController::class, 'show_nomor_surat_edit']);
+Route::post('admin/surat/keluar/panitia/edit/panitia/up', [DataSuratController::class, 'simpan_edit_surat_keluar_panitia']);
 
 //test pdf
 Route::get('admin/surat/keluar/pdf/view/{id}', [DataSuratController::class, 'index_surat_keluar']);

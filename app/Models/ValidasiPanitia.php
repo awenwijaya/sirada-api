@@ -23,4 +23,11 @@ class ValidasiPanitia extends Model
         DB::table('tb_validasi_panitia')
         ->insert($data);
     }
+
+    public function EditDataValidasiPanitia($data, $id, $jabatan) {
+        DB::table('tb_validasi_panitia')
+        ->where('surat_keluar_id', $id)
+        ->where('jabatan', $jabatan)
+        ->update($data);
+    }
 }

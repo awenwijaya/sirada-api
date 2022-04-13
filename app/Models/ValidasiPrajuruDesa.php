@@ -23,4 +23,11 @@ class ValidasiPrajuruDesa extends Model
         DB::table('tb_validasi_prajuru_desa')
         ->insert($data);
     }
+
+    public function EditDataValidasiPrajuru($data, $id, $id_lama) {
+        DB::table('tb_validasi_prajuru_desa')
+            ->where('surat_keluar_id', $id)
+            ->where('prajuru_desa_adat_id', $id_lama)
+            ->update($data);
+    }
 }

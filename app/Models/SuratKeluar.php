@@ -13,6 +13,8 @@ class SuratKeluar extends Model
 
     protected $table = 'tb_surat_keluar';
 
+    protected  $primaryKey = 'surat_keluar_id';
+
     protected $fillable = [
         'surat_keluar_id',
         'master_surat_id',
