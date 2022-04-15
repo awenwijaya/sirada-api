@@ -93,6 +93,7 @@ Route::post('admin/surat/keluar/panitia/up', [DataSuratController::class, 'up_su
 Route::get('admin/surat/keluar/panitia/edit/{id}', [DataSuratController::class, 'show_surat_keluar_edit']);
 Route::post('admin/surat/keluar/panitia/edit/nomor_surat/{id}', [DataSuratController::class, 'show_nomor_surat_edit']);
 Route::post('admin/surat/keluar/panitia/edit/panitia/up', [DataSuratController::class, 'simpan_edit_surat_keluar_panitia']);
+Route::post('admin/surat/keluar/non-panitia/edit/up', [DataSuratController::class, 'simpan_edit_surat_keluar_non_panitia']);
 
 //test pdf
 Route::get('admin/surat/keluar/pdf/view/{id}', [DataSuratController::class, 'index_surat_keluar']);

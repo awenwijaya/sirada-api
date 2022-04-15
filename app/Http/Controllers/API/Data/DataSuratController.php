@@ -164,7 +164,6 @@ class DataSuratController extends Controller
         $validasi_prajuru = new ValidasiPrajuruDesa();
         $master_surat = MasterSurat::where('kode_nomor_surat', $request->master_surat)->first();
         $master_surat_decode = json_decode($master_surat);
-        $tanggal_sekarang = Carbon::now()->toDateTimeString();
         $surat_keluar->master_surat_id = $master_surat_decode->master_surat_id;
         $surat_keluar->desa_adat_id = $request->desa_adat_id;
         $surat_keluar->lepihan = $request->lepihan;
@@ -183,18 +182,18 @@ class DataSuratController extends Controller
         $surat_keluar->lampiran = $request->lampiran ? : NULL;  
         $surat_keluar->nomor_surat = $request->nomor_surat;
         $surat_keluar->status = "Menunggu Respons";
-        $surat_keluar->tanggal_surat = $tanggal_sekarang;
+        $surat_keluar->tanggal_surat = $request->tanggal_surat;
         $surat_keluar->save();
-        $last_surat_keluar_id = $surat_keluar->id;
+        $nomor_surat = SuratKeluar::max('surat_keluar_id');
 
         $data_bendesa = [
             'prajuru_desa_adat_id' => $request->bendesa_adat_id,
-            'surat_keluar_id' => $last_surat_keluar_id
+            'surat_keluar_id' => $nomor_surat
         ];
         $validasi_prajuru->TambahDataValidasiPrajuru($data_bendesa);
         $data_penyarikan = [
             'prajuru_desa_adat_id' => $request->penyarikan_id,
-            'surat_keluar_id' => $last_surat_keluar_id
+            'surat_keluar_id' => $nomor_surat
         ];
         $validasi_prajuru->TambahDataValidasiPrajuru($data_penyarikan);
         return response()->json([
@@ -261,7 +260,6 @@ class DataSuratController extends Controller
         $validasi_prajuru = new ValidasiPrajuruDesa();
         $master_surat = MasterSurat::where('kode_nomor_surat', $request->master_surat)->first();
         $master_surat_decode = json_decode($master_surat);
-        $tanggal_sekarang = Carbon::now()->toDateTimeString();
         $surat_keluar->master_surat_id = $master_surat_decode->master_surat_id;
         $surat_keluar->desa_adat_id = $request->desa_adat_id;
         $surat_keluar->lepihan = $request->lepihan;
@@ -280,32 +278,31 @@ class DataSuratController extends Controller
         $surat_keluar->lampiran = $request->lampiran ? : NULL;  
         $surat_keluar->nomor_surat = $request->nomor_surat;
         $surat_keluar->status = "Menunggu Respons";
-        $surat_keluar->tanggal_surat = $tanggal_sekarang;
+        $surat_keluar->tanggal_surat = $request->tanggal_surat;
         $surat_keluar->save();
         $last_surat_keluar_id = $surat_keluar->id;
+        $nomor_surat = SuratKeluar::max('surat_keluar_id');
 
         $data_bendesa = [
             'prajuru_desa_adat_id' => $request->bendesa_adat_id,
-            'surat_keluar_id' => $last_surat_keluar_id
+            'surat_keluar_id' => $nomor_surat
         ];
         $validasi_prajuru->TambahDataValidasiPrajuru($data_bendesa);
 
         $data_ketua_panitia = [
             'krama_mipil_id' => $request->krama_mipil_ketua_id,
-            'surat_keluar_id' => $last_surat_keluar_id,
+            'surat_keluar_id' => $nomor_surat,
             'jabatan' => 'Ketua Panitia'
         ];
         $validasi_panitia->TambahDataValidasiPanitia($data_ketua_panitia);
         $data_sekretaris_panitia = [
             'krama_mipil_id' => $request->krama_mipil_sekretaris_id,
-            'surat_keluar_id' => $last_surat_keluar_id,
+            'surat_keluar_id' => $nomor_surat,
             'jabatan' => 'Sekretaris Panitia'
         ];
         $validasi_panitia->TambahDataValidasiPanitia($data_sekretaris_panitia);
-        return response()->json([
-            'status' => 'OK',
-            'message' => 'Data Surat Keluar Berhasil Disimpan!'
-        ], 200);
+        
+        return response()->json($nomor_surat, 200);
     }
 
     public function show_surat_keluar_edit($id) {
@@ -357,6 +354,7 @@ class DataSuratController extends Controller
         $surat_keluar->pihak_penerima = $request->pihak_penerima;
         $surat_keluar->lampiran = $request->lampiran ? : NULL;  
         $surat_keluar->nomor_surat = $request->nomor_surat;
+        $surat_keluar->tanggal_surat = $request->tanggal_surat;
         $surat_keluar->status = "Menunggu Respons";
         $surat_keluar->update();
 
@@ -383,6 +381,68 @@ class DataSuratController extends Controller
             'prajuru_desa_adat_id' => $request->bendesa_adat_id
         ];
         $validasi_prajuru->EditDataValidasiPrajuru($data_bendesa, $request->surat_keluar_id, $id_bendesa_old);
+        return response()->json([
+            'status' => 'OK',
+            'message' => 'Data Surat Keluar berhasil Diperbaharui!'
+        ], 200);
+    }
+
+    public function simpan_edit_surat_keluar_non_panitia(Request $request) {
+        $surat_keluar = SuratKeluar::find($request->surat_keluar_id);
+        $validasi_prajuru = new ValidasiPrajuruDesa();
+
+        $master_surat = MasterSurat::where('kode_nomor_surat', $request->master_surat)->first();
+        $master_surat_decode = json_decode($master_surat);
+        $surat_keluar->master_surat_id = $master_surat_decode->master_surat_id;
+        $surat_keluar->desa_adat_id = $request->desa_adat_id;
+        $surat_keluar->lepihan = $request->lepihan;
+        $surat_keluar->parindikan = $request->parindikan;
+        $surat_keluar->pemahbah_surat = $request->pemahbah_surat;
+        $surat_keluar->daging_surat = $request->daging_surat ? : NULL;
+        $surat_keluar->pamuput_surat = $request->pamuput_surat ? : NULL;
+        $surat_keluar->tanggal_mulai = $request->tanggal_mulai ? : NULL;
+        $surat_keluar->tanggal_selesai = $request->tanggal_selesai ? : NULL;
+        $surat_keluar->busana = $request->busana ? : NULL;
+        $surat_keluar->tempat_kegiatan = $request->tempat_kegiatan ? : NULL;
+        $surat_keluar->waktu_mulai = $request->waktu_mulai ? : NULL;
+        $surat_keluar->waktu_selesai = $request->waktu_selesai ? : NULL;
+        $surat_keluar->tim_kegiatan = $request->tim_kegiatan ? : NULL;
+        $surat_keluar->pihak_penerima = $request->pihak_penerima;
+        $surat_keluar->lampiran = $request->lampiran ? : NULL;  
+        $surat_keluar->nomor_surat = $request->nomor_surat;
+        $surat_keluar->tanggal_surat = $request->tanggal_surat;
+        $surat_keluar->status = "Menunggu Respons";
+        $surat_keluar->update();
+
+        $id_bendesa = ValidasiPrajuruDesa::join('tb_prajuru_desa_adat', 'tb_validasi_prajuru_desa.prajuru_desa_adat_id', 'tb_prajuru_desa_adat.prajuru_desa_adat_id')
+        ->join('tb_krama_mipil', 'tb_prajuru_desa_adat.krama_mipil_id', '=', 'tb_krama_mipil.krama_mipil_id')
+        ->join('tb_cacah_krama_mipil', 'tb_cacah_krama_mipil.cacah_krama_mipil_id', 'tb_krama_mipil.cacah_krama_mipil_id')
+        ->join('tb_penduduk', 'tb_penduduk.penduduk_id', '=', 'tb_cacah_krama_mipil.penduduk_id')
+        ->where('jabatan', "bendesa")
+        ->where('surat_keluar_id', $request->surat_keluar_id)
+        ->first();
+
+        $id_penyarikan = ValidasiPrajuruDesa::join('tb_prajuru_desa_adat', 'tb_validasi_prajuru_desa.prajuru_desa_adat_id', 'tb_prajuru_desa_adat.prajuru_desa_adat_id')
+        ->join('tb_krama_mipil', 'tb_prajuru_desa_adat.krama_mipil_id', '=', 'tb_krama_mipil.krama_mipil_id')
+        ->join('tb_cacah_krama_mipil', 'tb_cacah_krama_mipil.cacah_krama_mipil_id', 'tb_krama_mipil.cacah_krama_mipil_id')
+        ->join('tb_penduduk', 'tb_penduduk.penduduk_id', '=', 'tb_cacah_krama_mipil.penduduk_id')
+        ->where('jabatan', "penyarikan")
+        ->where('surat_keluar_id', $request->surat_keluar_id)
+        ->first();
+
+        $bendesa_decode = json_decode($id_bendesa);
+        $id_bendesa_old = $bendesa_decode->prajuru_desa_adat_id;
+
+        $penyarikan_decode = json_decode($id_penyarikan);
+        $id_penyarikan_old = $penyarikan_decode->prajuru_desa_adat_id;
+        $data_bendesa = [
+            'prajuru_desa_adat_id' => $request->bendesa_adat_id
+        ];
+        $validasi_prajuru->EditDataValidasiPrajuru($data_bendesa, $request->surat_keluar_id, $id_bendesa_old);
+        $data_penyarikan = [
+            'prajuru_desa_adat_id' => $request->penyarikan_id
+        ];
+        $validasi_prajuru->EditDataValidasiPrajuru($data_penyarikan, $request->surat_keluar_id, $id_penyarikan_old);
         return response()->json([
             'status' => 'OK',
             'message' => 'Data Surat Keluar berhasil Diperbaharui!'
