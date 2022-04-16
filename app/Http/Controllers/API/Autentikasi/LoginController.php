@@ -50,7 +50,6 @@ class LoginController extends Controller
 
     public function cek_status_admin($id) {
         $data = DB::table('tb_prajuru_desa_adat')
-                ->select('tb_prajuru_desa_adat.status_prajuru_desa_adat')
                 ->join('tb_krama_mipil', 'tb_prajuru_desa_adat.krama_mipil_id', '=', 'tb_krama_mipil.krama_mipil_id')
                 ->join('tb_cacah_krama_mipil', 'tb_krama_mipil.cacah_krama_mipil_id', '=', 'tb_cacah_krama_mipil.cacah_krama_mipil_id')
                 ->join('tb_penduduk', 'tb_cacah_krama_mipil.penduduk_id', '=', 'tb_penduduk.penduduk_id')

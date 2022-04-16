@@ -448,4 +448,85 @@ class DataSuratController extends Controller
             'message' => 'Data Surat Keluar berhasil Diperbaharui!'
         ], 200);
     }
+
+    public function show_list_surat_masuk($id) {
+        $data = SuratMasuk::where('desa_adat_id', $id)->get();
+        $data_cek = SuratMasuk::where('desa_adat_id', $id)->first();
+        if($data_cek == null) {
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Data Surat Masuk Tidak Ditemukan!'
+            ], 500);
+        }else{
+            return response()->json($data, 200);
+        }
+    }
+
+    public function simpan_surat_masuk(Request $request) {
+        $surat_masuk = new SuratMasuk();
+        $tanggal_sekarang = Carbon::now()->toDateTimeString();
+        $surat_masuk->master_surat_id = $request->master_surat_id;
+        $surat_masuk->perihal = $request->perihal;
+        $surat_masuk->asal_surat = $request->asal_surat;
+        $surat_masuk->tanggal_surat = $request->tanggal_surat;
+        $surat_masuk->tanggal_diterima = $tanggal_sekarang;
+        $surat_masuk->tanggal_kegiatan_mulai = $request->tanggal_kegiatan_mulai ? : NULL;
+        $surat_masuk->tanggal_kegiatan_berakhir = $request->tanggal_kegiatan_berakhir ? : NULL;
+        $surat_masuk->waktu_kegiatan_mulai = $request->waktu_kegiatan_mulai ? : NULL;
+        $surat_masuk->waktu_kegiatan_selesai = $request->waktu_kegiatan_selesai ? : NULL;
+        $surat_masuk->prajuru_desa_adat_id = $request->prajuru_desa_adat_id;
+        $surat_masuk->file = $request->file;
+        $surat_masuk->desa_adat_id = $request->desa_adat_id;
+        $surat_masuk->save();
+        return response()->json([
+            'status' => 'OK',
+            'message' => 'Data Surat Masuk berhasil Diperbaharui!'
+        ], 200);
+    }
+
+    public function show_detail_surat_masuk($id) {
+        $data = SuratMasuk::join('tb_prajuru_desa_adat', 'tb_surat_masuk.prajuru_desa_adat_id', '=', 'tb_prajuru_desa_adat.prajuru_desa_adat_id')
+                            ->join('tb_krama_mipil', 'tb_prajuru_desa_adat.krama_mipil_id', '=', 'tb_krama_mipil.krama_mipil_id')
+                            ->join('tb_cacah_krama_mipil', 'tb_krama_mipil.cacah_krama_mipil_id', '=', 'tb_cacah_krama_mipil.cacah_krama_mipil_id')
+                            ->join('tb_penduduk', 'tb_cacah_krama_mipil.penduduk_id', '=', 'tb_penduduk.penduduk_id')
+                            ->join('tb_master_surat', 'tb_master_surat.master_surat_id', '=', 'tb_surat_masuk.master_surat_id')
+                            ->where('tb_surat_masuk.surat_masuk_id', $id)
+                            ->first();
+        return response()->json($data, 200);
+    }
+
+    public function show_edit_surat_masuk($id) {
+        $data = DB::table('tb_surat_masuk')->where('tb_surat_masuk.surat_masuk_id', $id)->first();
+        return response()->json($data, 200);
+    }
+
+    public function simpan_edit_surat_masuk(Request $request) {
+        $surat_masuk = SuratMasuk::find($request->surat_keluar_id);
+        $surat_masuk->master_surat_id = $request->master_surat_id;
+        $surat_masuk->perihal = $request->perihal;
+        $surat_masuk->asal_surat = $request->asal_surat;
+        $surat_masuk->tanggal_surat = $request->tanggal_surat;
+        $surat_masuk->tanggal_kegiatan_mulai = $request->tanggal_kegiatan_mulai ? : NULL;
+        $surat_masuk->tanggal_kegiatan_berakhir = $request->tanggal_kegiatan_berakhir ? : NULL;
+        $surat_masuk->waktu_kegiatan_mulai = $request->waktu_kegiatan_mulai ? : NULL;
+        $surat_masuk->waktu_kegiatan_selesai = $request->waktu_kegiatan_selesai ? : NULL;
+        $surat_masuk->file = $request->file;
+        $surat_masuk->desa_adat_id = $request->desa_adat_id;
+        $surat_masuk->update();
+        return response()->json([
+            'status' => 'Berhasil',
+            'message' => 'Data Surat Masuk berhasil Diperbaharui!'
+        ], 200);
+    }
+
+    public function delete_surat_masuk() {
+        Request()->validate([
+            'surat_masuk_id' => 'required'
+        ]);
+        $this->SuratMasuk->HapusSuratMasuk(Request()->surat_masuk_id);
+        return response()->json([
+            'status' => 'OK',
+            'message' => 'Data Surat Masuk Berhasil Dihapus!'
+        ], 200);
+    }
 }

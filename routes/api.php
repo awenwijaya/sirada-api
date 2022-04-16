@@ -72,6 +72,8 @@ Route::get('data/admin/surat/nomor_surat/{id}', [DataSuratController::class, 'sh
 Route::get('data/admin/surat/non-panitia/kode/{id}', [DataSuratController::class, 'show_kode_surat_non_panitia']);
 Route::get('data/admin/surat/panitia/kode/{id}', [DataSuratController::class, 'show_kode_surat_panitia']);
 Route::post('data/admin/surat/non-panitia/{id}', [DataSuratController::class, 'show_surat_keluar_non_panitia']);
+Route::get('data/admin/surat/masuk/{id}', [DataSuratController::class, 'show_list_surat_masuk']);
+Route::get('data/admin/surat/keluar/view/{id}', [DataSuratController::class, 'show_detail_surat_masuk']);
 
 //admin
 Route::post('admin/desa/up_sejarah_desa', [DataDesaController::class, 'up_sejarah_desa']);
@@ -94,6 +96,14 @@ Route::get('admin/surat/keluar/panitia/edit/{id}', [DataSuratController::class, 
 Route::post('admin/surat/keluar/panitia/edit/nomor_surat/{id}', [DataSuratController::class, 'show_nomor_surat_edit']);
 Route::post('admin/surat/keluar/panitia/edit/panitia/up', [DataSuratController::class, 'simpan_edit_surat_keluar_panitia']);
 Route::post('admin/surat/keluar/non-panitia/edit/up', [DataSuratController::class, 'simpan_edit_surat_keluar_non_panitia']);
+
+//manajemen surat masuk admin
+Route::get('admin/surat/masuk/edit/{id}', [DataSuratController::class, 'show_edit_surat_masuk']);
+Route::post('admin/surat/masuk/edit/up', [DataSuratController::class, 'simpan_edit_surat_masuk']);
+Route::post('admin/surat/masuk/delete', [DataSuratController::class, 'delete_surat_masuk']);
+
+//manajemen surat masuk admin
+Route::post('admin/surat/masuk/up', [DataSuratController::class, 'simpan_surat_masuk']);
 
 //test pdf
 Route::get('admin/surat/keluar/pdf/view/{id}', [DataSuratController::class, 'index_surat_keluar']);
