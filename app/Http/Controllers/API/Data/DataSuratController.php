@@ -503,6 +503,7 @@ class DataSuratController extends Controller
     public function simpan_edit_surat_masuk(Request $request) {
         $surat_masuk = SuratMasuk::find($request->surat_keluar_id);
         $surat_masuk->master_surat_id = $request->master_surat_id;
+        $surat_masuk->nomor_surat = $request->nomor_surat;
         $surat_masuk->perihal = $request->perihal;
         $surat_masuk->asal_surat = $request->asal_surat;
         $surat_masuk->tanggal_surat = $request->tanggal_surat;

@@ -21,7 +21,12 @@ class RegistrasiController extends Controller
         Request()->validate([
             'nik' => 'required'
         ]);
-        $hasil = Penduduk::select()->where('nik', Request()->nik)->first();
+        $hasil = Penduduk::join('tb_cacah_krama_mipil', 'tb_cacah_krama_mipil.penduduk_id', '=', 'tb_penduduk.penduduk_id')
+                            ->join('tb_krama_mipil', 'tb_krama_mipil.cacah_krama_mipil_id', '=', 'tb_cacah_krama_mipil.cacah_krama_mipil_id')
+                            ->join('tb_m_banjar_adat', 'tb_krama_mipil.banjar_adat_id', '=', 'tb_m_banjar_adat.banjar_adat_id')
+                            ->join('tb_m_desa_adat', 'tb_m_banjar_adat.desa_adat_id', '=', 'tb_m_desa_adat.desa_adat_id')
+                            ->where('tb_penduduk.nik', Request()->nik)
+                            ->first();
         if($hasil == null) {
             return response()->json([
                 'status' => 'Failed',
