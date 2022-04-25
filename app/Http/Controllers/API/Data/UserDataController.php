@@ -25,7 +25,7 @@ class UserDataController extends Controller
                         ->join('tb_krama_mipil', 'tb_krama_mipil.cacah_krama_mipil_id', '=', 'tb_cacah_krama_mipil.cacah_krama_mipil_id')
                         ->join('tb_m_banjar_adat', 'tb_krama_mipil.banjar_adat_id', '=', 'tb_m_banjar_adat.banjar_adat_id')
                         ->join('tb_m_desa_adat', 'tb_m_banjar_adat.desa_adat_id', '=', 'tb_m_desa_adat.desa_adat_id')
-                        ->join('tb_m_profesi', 'tb_m_profesi.id', '=', 'tb_penduduk.profesi_id')
+                        ->join('tb_m_profesi', 'tb_m_profesi.profesi_id', '=', 'tb_penduduk.profesi_id')
                         ->where('tb_penduduk.penduduk_id', $id)
                         ->first();
         return response()->json($data, 200);

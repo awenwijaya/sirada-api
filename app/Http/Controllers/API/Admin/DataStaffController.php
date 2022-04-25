@@ -71,7 +71,7 @@ class DataStaffController extends Controller
         $data = PrajuruDesaAdat::join('tb_krama_mipil', 'tb_prajuru_desa_adat.krama_mipil_id', '=', 'tb_krama_mipil.krama_mipil_id')
                                 ->join('tb_cacah_krama_mipil', 'tb_krama_mipil.cacah_krama_mipil_id', '=', 'tb_cacah_krama_mipil.cacah_krama_mipil_id')
                                 ->join('tb_penduduk', 'tb_cacah_krama_mipil.penduduk_id', '=', 'tb_penduduk.penduduk_id')
-                                ->join('tb_m_profesi', 'tb_penduduk.profesi_id', '=', 'tb_m_profesi.id')
+                                ->join('tb_m_profesi', 'tb_penduduk.profesi_id', '=', 'tb_m_profesi.profesi_id')
                                 ->where('tb_prajuru_desa_adat.prajuru_desa_adat_id', $id)
                                 ->first();
         return response()->json($data, 200);
@@ -98,7 +98,7 @@ class DataStaffController extends Controller
                                 ->join('tb_krama_mipil', 'tb_prajuru_desa_adat.krama_mipil_id', '=', 'tb_krama_mipil.krama_mipil_id')
                                 ->join('tb_cacah_krama_mipil', 'tb_krama_mipil.cacah_krama_mipil_id', '=', 'tb_cacah_krama_mipil.cacah_krama_mipil_id')
                                 ->join('tb_penduduk', 'tb_cacah_krama_mipil.penduduk_id', '=', 'tb_penduduk.penduduk_id')
-                                ->join('tb_m_profesi', 'tb_penduduk.profesi_id', '=', 'tb_m_profesi.id')
+                                ->join('tb_m_profesi', 'tb_penduduk.profesi_id', '=', 'tb_m_profesi.profesi_id')
                                 ->join('tb_sso', 'tb_sso.penduduk_id', '=', 'tb_cacah_krama_mipil.penduduk_id')
                                 ->where('tb_prajuru_desa_adat.prajuru_desa_adat_id', $id)
                                 ->first();
@@ -160,7 +160,7 @@ class DataStaffController extends Controller
                                 ->join('tb_krama_mipil', 'tb_prajuru_banjar_adat.krama_mipil_id', '=', 'tb_krama_mipil.krama_mipil_id')
                                 ->join('tb_cacah_krama_mipil', 'tb_krama_mipil.cacah_krama_mipil_id', '=', 'tb_cacah_krama_mipil.cacah_krama_mipil_id')
                                 ->join('tb_penduduk', 'tb_cacah_krama_mipil.penduduk_id', '=', 'tb_penduduk.penduduk_id')
-                                ->join('tb_m_profesi', 'tb_penduduk.profesi_id', '=', 'tb_m_profesi.id')
+                                ->join('tb_m_profesi', 'tb_penduduk.profesi_id', '=', 'tb_m_profesi.profesi_id')
                                 ->where('tb_prajuru_banjar_adat.prajuru_banjar_adat_id', $id)
                                 ->first();
         return response()->json($data, 200);    

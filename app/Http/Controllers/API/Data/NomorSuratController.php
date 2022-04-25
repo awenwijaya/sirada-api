@@ -47,13 +47,15 @@ class NomorSuratController extends Controller
     public function proses_add_nomor_surat() {
         Request()->validate([
             'kode_nomor_surat' => 'required',
-            'keterangan' => 'required'
+            'keterangan' => 'required',
+            'desa_adat_id' => 'required'
         ]);
         $cek_kode_nomor_surat = MasterSurat::select('kode_nomor_surat')->where('kode_nomor_surat', Request()->kode_nomor_surat)->first();
         $cek_keterangan = MasterSurat::select('keterangan')->where('keterangan', Request()->keterangan)->first();
         $data = [
             'kode_nomor_surat' => Request()->kode_nomor_surat,
-            'keterangan' => Request()->keterangan
+            'keterangan' => Request()->keterangan,
+            'desa_adat_id' => Request()->desa_adat_id
         ];
         if($cek_keterangan != null || $cek_kode_nomor_surat != null) {
             return response()->json([
