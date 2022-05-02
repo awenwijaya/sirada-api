@@ -108,3 +108,10 @@ Route::post('admin/surat/masuk/up', [DataSuratController::class, 'simpan_surat_m
 //test pdf
 Route::get('admin/surat/keluar/pdf/view/{id}', [DataSuratController::class, 'index_surat_keluar']);
 Route::get('admin/surat/keluar/print/pdf/{id}', [DataSuratController::class, 'print_pdf_surat_keluar']);
+
+//krama validasi
+Route::get('krama/surat/{id}', [DataSuratController::class, 'show_surat_panitia_by_krama_mipil']);
+Route::get('krama/mipil/{id}', [PendudukDataController::class, 'show_krama_mipil']);
+Route::get('krama/surat/count/{id}', [DataSuratController::class, 'count_surat_panitia_belum_validasi']);
+Route::get('krama/surat/no-validasi/{id}', [DataSuratController::class, 'show_surat_panitia_belum_validasi']);
+Route::get('krama/surat/validasi/{id}', [DataSuratController::class, 'show_surat_panitia_sudah_validasi']);

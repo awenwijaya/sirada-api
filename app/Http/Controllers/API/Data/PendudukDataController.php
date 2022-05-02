@@ -35,6 +35,14 @@ class PendudukDataController extends Controller
         return response()->json($data, 200);
     }
 
+    public function show_krama_mipil($id) {
+        $data = CacahKramaMipil::join('tb_krama_mipil', 'tb_krama_mipil.cacah_krama_mipil_id', '=', 'tb_cacah_krama_mipil.cacah_krama_mipil_id')
+                                ->join('tb_penduduk', 'tb_penduduk.penduduk_id', '=', 'tb_cacah_krama_mipil.penduduk_id')
+                                ->where('tb_penduduk.penduduk_id', $id)
+                                ->first();
+        return response()->json($data, 200);
+    }
+
     public function show_detail_krama_mipil($id) {
         $data = CacahKramaMipil::join('tb_krama_mipil', 'tb_krama_mipil.cacah_krama_mipil_id', '=', 'tb_cacah_krama_mipil.cacah_krama_mipil_id')
                                 ->join('tb_penduduk', 'tb_penduduk.penduduk_id', '=', 'tb_cacah_krama_mipil.penduduk_id')

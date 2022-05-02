@@ -535,4 +535,62 @@ class DataSuratController extends Controller
             'message' => 'Data Surat Masuk Berhasil Dihapus!'
         ], 200);
     }
+
+    public function show_surat_panitia_by_krama_mipil($id) {
+        $data = ValidasiPanitia::where('krama_mipil_id', $id)->get();
+        $data_cek = ValidasiPanitia::where('krama_mipil_id', $id)->first();
+        if($data_cek == null) {
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Data Surat Keluar Tidak Ditemukan'
+            ], 500);
+        }else{
+            return response($data, 200);
+        }
+    }
+
+    public function count_surat_panitia_belum_validasi($id) {
+        $data = ValidasiPanitia::where('krama_mipil_id', $id)
+                                ->where('validasi', null)
+                                ->count();
+        return response()->json($data, 200);
+    }
+
+    public function show_surat_panitia_belum_validasi($id) {
+        $data = ValidasiPanitia::join('tb_surat_keluar', 'tb_validasi_panitia.surat_keluar_id', '=', 'tb_surat_keluar.surat_keluar_id')
+                                ->where('tb_validasi_panitia.krama_mipil_id', $id)
+                                ->whereNull('tb_validasi_panitia.validasi')
+                                ->get();
+        $data_cek = ValidasiPanitia::join('tb_surat_keluar', 'tb_validasi_panitia.surat_keluar_id', '=', 'tb_surat_keluar.surat_keluar_id')
+                                ->where('tb_validasi_panitia.krama_mipil_id', $id)
+                                ->whereNull('tb_validasi_panitia.validasi')
+                                ->first();
+        if($data_cek == null) {
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Data Surat Keluar Tidak Ditemukan!'
+            ], 500);
+        }else{
+            return response()->json($data, 200);
+        }
+    }
+
+    public function show_surat_panitia_sudah_validasi($id) {
+        $data = ValidasiPanitia::join('tb_surat_keluar', 'tb_validasi_panitia.surat_keluar_id', '=', 'tb_surat_keluar.surat_keluar_id')
+                                ->where('tb_validasi_panitia.krama_mipil_id', $id)
+                                ->whereNotNull('tb_validasi_panitia.validasi')
+                                ->get();
+        $data_cek = ValidasiPanitia::join('tb_surat_keluar', 'tb_validasi_panitia.surat_keluar_id', '=', 'tb_surat_keluar.surat_keluar_id')
+                                ->where('tb_validasi_panitia.krama_mipil_id', $id)
+                                ->whereNotNull('tb_validasi_panitia.validasi')
+                                ->first();
+        if($data_cek == null) {
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Data Surat Keluar Tidak Ditemukan!'
+            ], 500);
+        }else{
+            return response()->json($data, 200);
+        }
+    }
 }
